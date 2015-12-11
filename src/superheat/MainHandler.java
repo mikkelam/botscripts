@@ -99,57 +99,6 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
         return true;
     }
 
-//    public boolean prepare(){
-//        boolean needStaff = false;
-//        Item weapon = Equipment.getItemInSlot(Equipment.SLOTS_WEAPON);
-//        if(weapon == null )
-//            needStaff=true;
-//        else
-//            if(!weapon.getName().equals("Staff of fire"))
-//                needStaff=true;
-//
-//        Bank.openNearestBank();
-//        Time.sleepUntil(() -> {
-//            log(Bank.isOpen());
-//            return Bank.isOpen();
-//        });
-//
-//
-//        Bank.depositAll();
-//        Time.sleep(1000,1500);
-//        Time.sleepUntil(() -> {
-//            return Inventory.isEmpty();
-//        });
-//
-//        if (Bank.contains("Nature rune")) {
-//            Bank.withdrawAll("Nature rune");
-//            Time.sleepUntil(() -> {
-//                return Inventory.getCount()==1;
-//            });
-//            if (needStaff) {
-//                if (Bank.contains("Staff of fire")) {
-//                    Bank.withdraw("Staff of fire", 1);
-//                    Time.sleepUntil(() -> {
-//                        return Inventory.getCount() == 2;
-//                    });
-//                }
-//                else
-//                    return false;
-//            }
-//
-//            Bank.close();
-//            Time.sleepUntil(() -> {
-//                return !Bank.isOpen();
-//            });
-//            if (needStaff) {
-//                Inventory.getFirst("Staff of fire").click();
-//            }
-//            return true;
-//        }
-//        return false;
-//
-//    }
-
     @Override
     public void onFinish() {
         super.onFinish();
