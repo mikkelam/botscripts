@@ -135,34 +135,38 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
 
     public boolean newOres(){
 
-        Bank.openNearestBank();
+        Bank.open();
         Time.sleepUntil(() -> {
             return Bank.isOpen();
         },Random.nextInt(1100,1500));
-        Bank.depositAll(smelting);
-        Time.sleepUntil(() -> {
-            return !Inventory.contains(smelting);
-        },Random.nextInt(1100,1500));
+        if (Bank.isOpen()){
+            Bank.depositAll(smelting);
+            Time.sleepUntil(() -> {
+                return !Inventory.contains(smelting);
+            },Random.nextInt(1100,1500));
 
-        ArrayList<Map.Entry<Integer,String>> ores = Withdrawals.get(smelting);
-        for (Map.Entry<Integer,String> ore: ores) {
-            int amount = ore.getKey();
-            String name = ore.getValue();
-            if (Bank.contains(name)) {
-                Bank.withdraw(name, amount);
-                Time.sleepUntil(() -> {
-                    return Inventory.contains(name);
-                },Random.nextInt(1100,1500));
+            ArrayList<Map.Entry<Integer,String>> ores = Withdrawals.get(smelting);
+            for (Map.Entry<Integer,String> ore: ores) {
+                int amount = ore.getKey();
+                String name = ore.getValue();
+                if (Bank.contains(name)) {
+                    Bank.withdraw(name, amount);
+                    Time.sleepUntil(() -> {
+                        return Inventory.contains(name);
+                    },Random.nextInt(1100,1500));
 
+                }
+                else{
+                    log("wtf");
+                    return false;
+                }
             }
-            else{
-                return false;
-            }
+            Bank.close();
+            Time.sleepUntil(() -> {
+                return !Bank.isOpen();
+            },Random.nextInt(1100,1500));
         }
-        Bank.close();
-        Time.sleepUntil(() -> {
-            return !Bank.isOpen();
-        },Random.nextInt(1100,1500));
+
         return true;
     }
 
