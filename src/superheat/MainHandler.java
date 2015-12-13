@@ -58,7 +58,7 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
                 new AbstractMap.SimpleEntry<>(18, "Coal")
         )));
         put("gold bar", new ArrayList<>(Arrays.asList(
-                new AbstractMap.SimpleEntry<>(1, "Gold ore")
+                new AbstractMap.SimpleEntry<>(27, "Gold ore")
         )));
         put("mithril bar", new ArrayList<>(Arrays.asList(
                 new AbstractMap.SimpleEntry<>(5, "Mithril ore"),
@@ -74,8 +74,8 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
         )));
     }};
     String smelting;
-    String ore1;
-    String ore2;
+    String ore1 = null;
+    String ore2 = null;
 
     public boolean onStart() {
         JLabel info = new JLabel("START WITH STAFF OF FIRE ON AND NATURE RUNES IN INVENTORY");
@@ -90,9 +90,13 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
         int option = JOptionPane.showConfirmDialog(null,content, "Enter all your values", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             smelting = cb.getSelectedItem().toString();
-            ore1= Withdrawals.get(smelting).get(0).getValue();
-            ore2= Withdrawals.get(smelting).get(1).getValue();
 
+            if (Withdrawals.get(smelting).size() > 2)
+                ore2 = Withdrawals.get(smelting).get(1).getValue();
+            else{
+                ore1= Withdrawals.get(smelting).get(0).getValue();
+                ore2=ore1;
+            }
         }
         log(smelting);
 
@@ -108,7 +112,7 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
     public int loop() {
         if (Inventory.contains("Nature rune") &&
             Equipment.getItemInSlot(Equipment.SLOTS_WEAPON).getName().equals("Staff of fire")){
-            if (Inventory.contains(ore1) && Inventory.contains(ore2)) {
+            if (Inventory.contains(ore1) &&  Inventory.contains(ore2)) {
                 smelt(ore1);
             }
             else{
@@ -127,8 +131,10 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
         Magic.cast(SpellBooks.Modern.SUPERHEAT_ITEM);
 
         Time.sleepUntil(()->Inventory.isOpen(), Random.nextInt(700,900));
-        Inventory.getLast(item).click();
-        Inventory.getItemClosestToMouse(item).click();
+        if (Withdrawals.get(smelting).size()==2)
+            Inventory.getLast(item).click();
+        else
+            Inventory.getItemClosestToMouse(item).click();
 
         return true;
     }
@@ -174,6 +180,7 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
     private MouseTrail mt = new MouseTrail();
 
     public void antiban() {
+
     }
 
     public void messageReceived(MessageEvent messageEvent) {
