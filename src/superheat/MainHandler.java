@@ -125,7 +125,7 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
             log("No nats or staff of fire not in weapon slot");
             return -1;
         }
-        return Random.nextInt(1200, 1500);
+        return Random.nextInt(1400, 1700);
     }
     public boolean smelt(String item){
         Magic.cast(SpellBooks.Modern.SUPERHEAT_ITEM);

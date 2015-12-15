@@ -31,9 +31,42 @@ import javax.swing.*;
         description = "Shops Death rune",
         category = ScriptCategory.MONEY_MAKING
 )
+
+//TODO: Stops at 10000 coins, fix this somehow
 public class MainHandler extends AbstractScript implements MessageListener, PaintListener {
+    String shopkeeper;
+    String itemtext="";
+    int stopstack;
+    boolean f2p;
+
     public boolean onStart() {
-        //TODO dont hardcode seller and GUI
+        JLabel info = new JLabel("start near shopkeeper with coins in inventory");
+
+
+        JTextField shopkeepertf = new JTextField();
+        JTextField itemtf = new JTextField();
+        JTextField stopstacktf = new JTextField();
+        JCheckBox f2ptf = new JCheckBox();
+
+
+
+        Object[] content = {
+                "", info,
+                "Enter exact name of shopkeeper", shopkeepertf,
+                "Enter exact name of item you want to purchase", itemtf,
+
+                "Enter stack size to stop purchasing at", stopstacktf,
+                "Use free to play worlds?", f2ptf
+        };
+        int option = JOptionPane.showConfirmDialog(null,content, "Enter all values", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION){
+            shopkeeper = shopkeepertf.getText();
+            itemtext = itemtf.getText();
+            stopstack = Integer.parseInt(stopstacktf.getText());
+            f2p = f2ptf.isSelected();
+
+        }
+
         return true;
     }
 
@@ -50,23 +83,26 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
         if (coins == null)
             return -1;
         if( !Shop.isOpen()){
-            NPC aubury = Npcs.getNearest("Aubury");
-            aubury.interact("Trade");
+            Npcs.getNearest(shopkeeper).interact("Trade");
         }
         else{
-            ShopItem item = Shop.getItem("Death rune");
-            if (item.getStackSize()>0 && coins.getStackSize() > 1000) {
+            ShopItem item = Shop.getItem(itemtext);
+            if (item.getStackSize()>stopstack && coins.getStackSize() > 10000) {
                 int chance = Random.nextInt(1, 10);
                 String interaction = "Buy 10";
                 if (chance == 10)
                     interaction = "Examine";
                 else if (chance == 9)
-                    interaction = "Buy 9";
+                    interaction = "Buy 5";
                 item.interact(interaction);
             }
             else {
-                Time.sleep(2);
-                Game.instaHopNextP2P();
+                Time.sleep(2000,7000);
+                if (f2p)
+                    Game.instaHopNextF2P();
+                else
+                    Game.instaHopNextP2P();
+                Time.sleep(1000,3000);
             }
         }
 
