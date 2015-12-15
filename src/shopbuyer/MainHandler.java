@@ -88,7 +88,7 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
         else{
             ShopItem item = Shop.getItem(itemtext);
             if (item.getStackSize()>stopstack && coins.getStackSize() > 10000) {
-                int chance = Random.nextInt(1, 10);
+                int chance = Random.nextInt(1, 11);
                 String interaction = "Buy 10";
                 if (chance == 8)
                     interaction = "Examine";
