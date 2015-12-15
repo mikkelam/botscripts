@@ -25,6 +25,10 @@ import agility.Obstacles.*;
 /**
  * Code stolen from https://gist.github.com/anonymous/504724c2bc69948151a9
  * Inserted by Saph
+ * Needs a lot of fixing.
+ * confirmed entirely working:
+ * Draynor
+ * Varrock: Seems to have problems in main loop
  */
 @Manifest(authors = "Mad", name = "AgilityPro Revamped")
 public class Main extends AbstractScript implements PaintListener, InventoryListener {
@@ -45,7 +49,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
     private LinkedHashMap<Boolean, Runnable> gnomeMap = new LinkedHashMap<>();
 
     private int currentLevel() {
-        return Skills.getCurrentLevel(Skills.Skill.HITPOINTS);
+        return Skills.getCurrentLevel(Skills.Skill.AGILITY);
     }
 
     private void populateHash() {
@@ -102,6 +106,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
                     if (util.markGrace() == null) {
                         if (Walking.canReach(tile) && !Players.getLocal().isMoving() || Game.getPlane() == 0 && tile.getPlane() == 0)
                             runnable.run();
+
                     }
                 });
             } else handleFood();

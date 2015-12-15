@@ -14,6 +14,8 @@ import org.tbot.wrappers.Tile;
 
 import java.awt.*;
 
+import static org.tbot.internal.handlers.LogHandler.log;
+
 /**
  * Created by Jonross on 6/3/2015.
  */
