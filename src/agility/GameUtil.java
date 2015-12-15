@@ -140,7 +140,8 @@ public class GameUtil {
                 if(object.getModel() !=null && object.getModelLocation() !=null && object.getModelLocation().getBounds() !=null) {
                     int x = (int) object.getModelLocation().getBounds().getBounds().getCenterX();
                     int y = (int) object.getModelLocation().getBounds().getBounds().getCenterY();
-                    Mouse.setLocation(x + Random.nextInt(2,6),y - Random.nextInt(3,9));
+//                    Mouse.setLocation(x + Random.nextInt(2,6),y - Random.nextInt(3,9)); This seems to move instantly
+                    Mouse.move(x + Random.nextInt(2,6),y - Random.nextInt(3,9));
                     if(Menu.getUpText().contains(action + " " + object.getName())) {
                         Mouse.click(true);
                         Time.sleep(50, 75);
