@@ -42,7 +42,7 @@ import javax.swing.*;
 public class MainHandler extends AbstractScript implements PaintListener, InventoryListener {
 
     private final GameUtil util = new GameUtil();
-    private final Tile furnaceTile = new Tile(3109,3499);
+    private final Tile furnaceTile = new Tile(3109, 3499);
     private Timer smeltTimer;
     private SkillPaint sp = new SkillPaint();
     private MouseTrail mt = new MouseTrail();
@@ -69,7 +69,8 @@ public class MainHandler extends AbstractScript implements PaintListener, Invent
 
     private boolean enterAmount() {
         if (enterAmt().isVisible()) {
-            Keyboard.sendText(String.valueOf(Random.nextInt(28, 421)), true);
+            String amt = String.valueOf(Random.randomIntFromArray(121, 221, 112, 2121, 1212, 3213, 12312, 4123, 123, 123,211, 312, 123, 111, 312, 31,231,221, 3123));
+            Keyboard.sendText(amt, true);
             smeltTimer = new Timer(4000);
             Time.sleepUntil(() -> enterAmt().isVisible(), 1200);
         }
@@ -91,34 +92,29 @@ public class MainHandler extends AbstractScript implements PaintListener, Invent
     }
 
 
-
     @Override
     public int loop() {
         Player player = Players.getLocal();
-        if (!player.isMoving() && (smeltTimer == null || !smeltTimer.isRunning())){
-            if (Inventory.contains("Gold ore")){
-                if (player.getLocation().equals(furnaceTile.getLocation())){
+        if (!player.isMoving() && (smeltTimer == null || !smeltTimer.isRunning())) {
+            if (Inventory.contains("Gold ore")) {
+                if (player.getLocation().equals(furnaceTile.getLocation()) ||  GameObjects.getNearest("Furnace").isOnScreen()) {
                     if (needToSmelt()) {
                         util.interact(GameObjects.getNearest("Furnace"), "Smelt");
 
-                    }
-                    else{
+                    } else {
                         interactWidget();
                         enterAmount();
                     }
-                }
-                else{
+                } else {
                     Walking.findPath(furnaceTile).traverse();
                 }
-            }
-            else if (Bank.isOpen()){
+            } else if (Bank.isOpen()) {
                 handleBanking();
-            }
-            else{
+            } else {
                 util.interact(GameObjects.getNearest("Bank booth"), "Bank");
             }
         }
-        return 120;
+        return Random.nextInt(198, 378);
     }
 
 
