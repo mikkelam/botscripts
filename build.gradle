@@ -1,0 +1,13 @@
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+dependencies {
+    compile fileTree(dir: 'lib', include: '*.jar')
+}
