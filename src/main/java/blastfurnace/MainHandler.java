@@ -1,10 +1,8 @@
 package blastfurnace;
 
 import java.awt.Graphics;
-import java.lang.reflect.Array;
-import javax.swing.JOptionPane;
 
-import com.sun.org.apache.xpath.internal.axes.WalkingIterator;
+import org.tbot.client.*;
 import org.tbot.graphics.MouseTrail;
 import org.tbot.graphics.SkillPaint;
 import org.tbot.internal.AbstractScript;
@@ -14,18 +12,10 @@ import org.tbot.internal.event.events.MessageEvent;
 import org.tbot.internal.event.listeners.MessageListener;
 import org.tbot.internal.event.listeners.PaintListener;
 import org.tbot.methods.*;
-import org.tbot.methods.tabs.Equipment;
 import org.tbot.methods.tabs.Inventory;
-import org.tbot.methods.walking.Path;
 import org.tbot.methods.walking.Walking;
-import org.tbot.methods.walking.nodes.WebAction;
-import org.tbot.methods.web.Web;
-import org.tbot.methods.web.actions.ObjectAction;
-import org.tbot.methods.web.areas.WebArea;
-import org.tbot.methods.web.banks.WebBank;
-import org.tbot.methods.web.nodes.WebNode;
-import org.tbot.methods.web.path.WebPath;
 import org.tbot.wrappers.*;
+import org.tbot.wrappers.GameObject;
 
 @Manifest(
         name = "Blast furnace",
@@ -37,35 +27,25 @@ import org.tbot.wrappers.*;
         category = ScriptCategory.THIEVING
 )
 /**
- * This script is missing upper level motherlode mining
+ * newly started, it sucks
  */
 public class MainHandler extends AbstractScript implements MessageListener, PaintListener {
-    String ore1;
-    String ore2;
-    String[] ores;
-    int added = 0;
+    String ore;
+    int coaladded = 0;
+    boolean smelting = false;
 
 
 
-    private void handleBanking() {
+    private void handleBanking(String withdraw) {
         if (Bank.isOpen()){
-            if (Inventory.isFull()){
+            if (Inventory.isFull())
                 Bank.depositAll();
-                if (added ==2)
-                    added=0;
-            }
-            int oreindex = Random.randomIntFromArray(1,1,1,1,1,1,0,1,1,1,1,0,1,1,0,0,1,1);
-            Item first = Bank.getItem(ores[oreindex]);
-            Mouse.move(first.getRandomPoint());
-            Time.sleep(100,300);
-            first.interact("Withdraw-14");
-            Time.sleep(300,500);
-            Item second = Bank.getItem(ores[(oreindex+1)%2]);
-            Mouse.move(second.getRandomPoint());
-            Time.sleep(100,300);
-            second.interact("Withdraw-All");
-            Time.sleep(300,500);
 
+            Item ore = Bank.getItem(withdraw);
+            Mouse.move(ore.getRandomPoint());
+            Time.sleep(400, 700);
+            ore.interact("Withdraw-All");
+            Time.sleep(300, 500);
         }
         else{
             GameObject bank = GameObjects.getTopAt(new Tile(1948,4956,0));
@@ -73,62 +53,90 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
                 bank.interact("Use");
             }
             else {
+
                 Camera.turnTo(bank);
                 Walking.walkTileMM(bank.getLocation(),Random.nextInt(2),Random.nextInt(2));
             }
-
-
-
         }
-
     }
 
 
     public boolean onStart() {
-        ore1 = "Iron ore";
-        ore2 = "Coal";
-        ores = new String[]{ore1, ore2};
+        ore = "Iron ore";
         return true;
     }
 
-    public int loop() {
-        log(added);
-        if (added < 2){
-            if (Inventory.contains(ore1) && Inventory.contains(ore2)){
-                GameObject conveyor = GameObjects.getTopAt(new Tile(1943,4967,0));
-                if (conveyor.isOnScreen()){
-                    if (Widgets.getWidgetByText("Yes") != null){
-                        Widgets.getWidgetByText("Yes").click();
-                        Time.sleep(1000,1500);
-                        if (Widgets.getWidgetByText("Yes") == null)
-                            added+=1;
-
+    public void addConveyor(String ore){
+        if (Inventory.contains(ore)){
+            GameObject conveyor = GameObjects.getTopAt(new Tile(1943,4967,0));
+            if (conveyor.isOnScreen()){
+                if (Widgets.getWidgetByText("Yes") != null){
+                    Widgets.getWidgetByText("Yes").click();
+                    Time.sleep(1200,1700);
+                    if (Inventory.isEmpty()) {
+                        if (ore.equals("Coal"))
+                            coaladded += 28;
+                        else
+                            smelting = true;
                     }
-                    conveyor.interact("Put-ore-on");
-                }
-                else{
-                    Walking.walkTileMM(new Tile(1942,4967,0));
-                    Camera.turnTo(conveyor);
-                }
 
+
+                }
+                else
+                    conveyor.interact("Put-ore-on");
 
             }
             else{
-                handleBanking();
+                Walking.walkTileMM(new Tile(1942,4967,0));
+                Camera.turnTo(conveyor);
             }
         }
         else{
-            GameObject bardispenser = GameObjects.getTopAt(new Tile(1940,4963));
-            Walking.walkTileMM(bardispenser.getLocation(),Random.nextInt(2),Random.nextInt(2));
-            if (bardispenser.hasAction("Take"))
-                bardispenser.interact("Take");
-            if (Inventory.contains("Steel bar"));
-                handleBanking();
+            handleBanking(ore);
+        }
+    }
 
+    public void takeBars(){
+        if (Inventory.contains("Steel bar")){
+            smelting = false;
+            coaladded -=24;
+            return;
         }
 
+        GameObject bardispenser = GameObjects.getTopAt(new Tile(1940,4963));
+        if (bardispenser.isOnScreen()) {
+            if (bardispenser.hasAction("Take")){
+                bardispenser.interact("Take");
+                if (Widgets.getWidget(28,110).isOnScreen()){
+                    Widgets.getWidget(28,110).click();
+                }
+            }
+        }
+        else
+            Walking.walkTileMM(bardispenser.getLocation(), Random.nextInt(2), Random.nextInt(2));
+        if (Inventory.contains("Steel bar")){
+            if (Inventory.contains(ore) || Inventory.contains("Coal"))
+                smelting=false;
+        }
+    }
+
+
+    public int loop() {
+        if (smelting)
+            takeBars();
+        else{
+            if (coaladded >= 84) {
+                addConveyor("Iron ore");
+            }
+            else {
+                addConveyor("Coal");
+            }
+        }
+        if (Walking.getRunEnergy() > 70)
+            Walking.setRun(true);
 
         return Random.nextInt(1000,3000);
+
     }
 
     private SkillPaint sp = new SkillPaint();
