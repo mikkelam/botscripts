@@ -47,6 +47,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
     private LinkedHashMap<Tile, Runnable> rellekaMap = new LinkedHashMap<>();
     private LinkedHashMap<Tile, Runnable> ardyMap = new LinkedHashMap<>();
     private LinkedHashMap<Tile, Runnable> varrockMap = new LinkedHashMap<>();
+    private LinkedHashMap<Tile, Runnable> canifisMap = new LinkedHashMap<>();
     private LinkedHashMap<Boolean, Runnable> gnomeMap = new LinkedHashMap<>();
 
     private int currentLevel() {
@@ -55,7 +56,8 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
 
     private void populateHash() {
         hashMaps.put(draynorMap, currentLevel() >= 10 && currentLevel() < 30);
-        hashMaps.put(varrockMap, currentLevel() >= 30  && currentLevel() < 50);
+        hashMaps.put(varrockMap, currentLevel() >= 30  && currentLevel() < 40);
+        hashMaps.put(canifisMap, currentLevel() >= 40  && currentLevel() < 50);
         hashMaps.put(faladorMap, currentLevel() >= 50 && currentLevel() < 70);
         hashMaps.put(seersMap, currentLevel() >= 70 && currentLevel() < 80);
         hashMaps.put(rellekaMap, currentLevel() >= 80 && currentLevel() < 90);
@@ -85,6 +87,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
         populateGnome();
         populateDraynor();
         populateVarrock();
+        populateCanifis();
         populateFalador();
         populateSeers();
         populateRelleka();
@@ -168,6 +171,18 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
         varrockMap.put(Varrock.fourthGapTile, () -> util.interact(new GObject("Gap", new Tile(3233,3402,3)).getObject(), "Leap"));
         varrockMap.put(Varrock.ledgeTile, () -> util.interact(new GObject("Ledge").getObject(), "Hurdle"));
         varrockMap.put(Varrock.lastEdgeTile, () -> util.interact(new GObject("Edge").getObject(), "Jump-off"));
+    }
+
+    private void populateCanifis() {
+
+        canifisMap.put(Canifis.treeTile, () -> util.handleWall(Canifis.treeTile, "Tall tree", "Climb"));
+        canifisMap.put(Canifis.firstGapTile, () -> util.interact(new GObject("Gap").getObject(), "Jump"));
+        canifisMap.put(Canifis.secondGapTile, () -> util.interact(new GObject("Gap", new Tile(3496,3504,2)).getObject(), "Jump"));
+        canifisMap.put(Canifis.thirdGapTile, () -> util.interact(new GObject("Gap", new Tile(3486,3499,2)).getObject(), "Jump"));
+        canifisMap.put(Canifis.fourthGapTile, () -> util.interact(new GObject("Gap", new Tile(3478,3492,3)).getObject(), "Jump"));
+        canifisMap.put(Canifis.poleTile, () -> util.interact(new GObject("Pole-vault", new Tile(3480,3483,2)).getObject(), "Vault"));
+        canifisMap.put(Canifis.fifthGapTile, () -> util.interact(new GObject("Gap", new Tile(3503,3476,3)).getObject(), "Jump"));
+        canifisMap.put(Canifis.sixthGapTile, () -> util.interact(new GObject("Gap", new Tile(3510,3483,2)).getObject(), "Jump"));
     }
 
    private void populateFalador() {

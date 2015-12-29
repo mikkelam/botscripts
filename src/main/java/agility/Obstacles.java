@@ -68,8 +68,21 @@ public class Obstacles {
         public static final Tile bigWallTile = new Tile(3088, 3257, 3);
         public static final Tile jumpGapTile = new Tile(3094, 3255, 3);
         public static final Tile climbCrateTile = new Tile(3100, 3260, 3);
-  
     }
+
+    public static class Canifis {
+
+        public static final Tile treeTile = new Tile(3508,3489, 0);
+        public static final Tile firstGapTile = new Tile(3506,3497,2);
+        public static final Tile secondGapTile = new Tile(3498,3504,2);
+        public static final Tile thirdGapTile = new Tile(3487,3499,2);
+        public static final Tile fourthGapTile = new Tile(3478,3493,3);
+        public static final Tile poleTile = new Tile(3479,3483,2);
+        public static final Tile fifthGapTile = new Tile(3502,3476,3);
+        public static final Tile sixthGapTile = new Tile(3510,3482,2);
+    }
+
+
 
     public static class Ally {
 
@@ -102,7 +115,6 @@ public class Obstacles {
     public static class Falador {
 
         public static final Tile roughWallTile = new Tile(3036, 3341, 0);
-
         public static final Tile firstRopeTile = new Tile(3037, 3343, 3); //cross
         public static final Tile handHoldsTile = new Tile(3049, 3349, 3); //cross
         public static final Tile firstGapTile = new Tile(3049, 3357, 3); //Jump
