@@ -109,8 +109,8 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
             if(!util.needToEat() || util.needToEat() && Game.getPlane() != 0) {
                 currentCourse.forEach((tile, runnable) -> {
                     if (util.markGrace() == null) {
-                        if (Walking.canReach(tile) && !Players.getLocal().isMoving() &&  Players.getLocal().getAnimation() != 1 || Game.getPlane() == 0 && tile.getPlane() == 0){
-                            if (!tile.isOnScreen())
+                        if ((Walking.canReach(tile) && !Players.getLocal().isMoving() &&  Players.getLocal().getAnimation() != 1) || Game.getPlane() == 0 && tile.getPlane() == 0){
+                            if (!tile.isOnScreen() && tile.isLoaded())
                                 getContainer().invoke(new Task() {//This might cause multiple camera movements
                                     @Override
                                     public void execute() {
