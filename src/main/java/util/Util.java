@@ -31,7 +31,6 @@ public final class Util {
 
             return path != null && path.traverse();
         }
-
         return o.interact(action);
     }
 }
