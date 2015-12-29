@@ -28,7 +28,8 @@ import agility.Obstacles.*;
  * Needs a lot of fixing.
  * confirmed entirely working:
  * Draynor
- * Varrock: Seems to have problems in main loop
+ * Varrock
+ *
  */
 @Manifest(authors = "Mad", name = "AgilityPro Revamped")
 public class Main extends AbstractScript implements PaintListener, InventoryListener {
@@ -104,8 +105,10 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
             if(!util.needToEat() || util.needToEat() && Game.getPlane() != 0) {
                 currentCourse.forEach((tile, runnable) -> {
                     if (util.markGrace() == null) {
-                        if (Walking.canReach(tile) && !Players.getLocal().isMoving() || Game.getPlane() == 0 && tile.getPlane() == 0)
+                        if (Walking.canReach(tile) && !Players.getLocal().isMoving() || Game.getPlane() == 0 && tile.getPlane() == 0){
                             runnable.run();
+                            Camera.turnTo(tile.getLocation());
+                        }
 
                     }
                 });
