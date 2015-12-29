@@ -71,7 +71,7 @@ public class Obstacles {
     }
 
     public static class Canifis {
-
+        public static final Tile startTile = new Tile(3508,3488, 0);
         public static final Tile treeTile = new Tile(3508,3489, 0);
         public static final Tile firstGapTile = new Tile(3506,3497,2);
         public static final Tile secondGapTile = new Tile(3498,3504,2);

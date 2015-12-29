@@ -1,6 +1,7 @@
 package agility;
 
 import org.tbot.bot.TBot;
+import org.tbot.concurrency.Task;
 import org.tbot.internal.handlers.LogHandler;
 import org.tbot.methods.*;
 import org.tbot.methods.Menu;
@@ -20,6 +21,7 @@ import static org.tbot.internal.handlers.LogHandler.log;
  * Created by Jonross on 6/3/2015.
  */
 public class GameUtil {
+
 
     public final GroundItem markGrace() {
         return GroundItems.getNearest(groundItem -> Walking.canReach(groundItem.getLocation()) && groundItem.getName().equals("Mark of grace") ||
@@ -82,6 +84,8 @@ public class GameUtil {
             Time.sleepUntil(() -> Walking.getDestinationDistance() <= 4, Random.nextInt(800,1650));
         }
     }
+
+
 
     public boolean handleWall(Tile tileArg, String objName, String action) {
         final Tile tile = tileArg;

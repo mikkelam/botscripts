@@ -2,6 +2,7 @@ package agility;
 
 import org.tbot.bot.TBot;
 import org.tbot.concurrency.LoopTask;
+import org.tbot.concurrency.Task;
 import org.tbot.graphics.MouseTrail;
 import org.tbot.internal.AbstractScript;
 import org.tbot.internal.Manifest;
@@ -108,9 +109,17 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
             if(!util.needToEat() || util.needToEat() && Game.getPlane() != 0) {
                 currentCourse.forEach((tile, runnable) -> {
                     if (util.markGrace() == null) {
-                        if (Walking.canReach(tile) && !Players.getLocal().isMoving() || Game.getPlane() == 0 && tile.getPlane() == 0){
+                        if (Walking.canReach(tile) && !Players.getLocal().isMoving() &&  Players.getLocal().getAnimation() != 1 || Game.getPlane() == 0 && tile.getPlane() == 0){
+                            if (!tile.isOnScreen())
+                                getContainer().invoke(new Task() {//This might cause multiple camera movements
+                                    @Override
+                                    public void execute() {
+                                        Camera.turnTo(tile);
+                                    }
+                                });
+
+
                             runnable.run();
-                            Camera.turnTo(tile.getLocation());
                         }
 
                     }
@@ -174,7 +183,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
     }
 
     private void populateCanifis() {
-
+        canifisMap.put(Canifis.startTile, () -> Walking.findPath(Canifis.startTile).traverse());
         canifisMap.put(Canifis.treeTile, () -> util.handleWall(Canifis.treeTile, "Tall tree", "Climb"));
         canifisMap.put(Canifis.firstGapTile, () -> util.interact(new GObject("Gap").getObject(), "Jump"));
         canifisMap.put(Canifis.secondGapTile, () -> util.interact(new GObject("Gap", new Tile(3496,3504,2)).getObject(), "Jump"));
@@ -360,15 +369,9 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
     public void onRepaint(Graphics graphics) {
         mt.draw(graphics);
         mt.setColor(Color.ORANGE);
-        graphics.drawString("XP/H" + tracker.getExperiencePerHour(), 100, 130);
-        graphics.drawString("Marks Looted: " + marksLooted, 100, 145);
-        graphics.drawString("Mad Pro Agility", 100, 100);
-        graphics.drawString("Time running: " + tracker.getFormattedTimeTracking(), 100, 115);
-        graphics.drawString("Current courses: " + currentCourse.size(), 100, 160);
-      //  graphics.drawString("Current level: " + currentLevel(), 100, 130);
-       // graphics.drawString("Reachable Tile: " + Draynor.getReachableTile(), 100, 145);
-        graphics.setColor(Color.black);
-        graphics.fillRect(7, 455, 150, 20);
+        graphics.drawString("XP/H" + tracker.getExperiencePerHour(), 8, 30);
+        graphics.drawString("Marks Looted: " + marksLooted, 8, 45);
+        graphics.drawString("Time running: " + tracker.getFormattedTimeTracking(), 8, 15);
     }
 
     @Override
