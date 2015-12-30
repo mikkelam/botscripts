@@ -19,7 +19,7 @@ public final class Util {
      * @param nearbyTile A {Tile} close to {o}
      * @return The result of interacting with an object.
      */
-    public static boolean interact(org.tbot.wrappers.GameObject o, String action, Tile nearbyTile) {
+    public static boolean interact(final GameObject o, final String action, final Tile nearbyTile) {
         // If object is null, create path to nearby tile, and return traverse
         if(o == null) {
             Path path = Walking.findPath(nearbyTile);

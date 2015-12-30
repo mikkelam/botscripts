@@ -98,7 +98,5 @@ public class Main extends AbstractScript implements PaintListener {
         graphics.setColor(Color.white);
         //graphics.drawString("Martin's Firemaker", 100, 100);
         graphics.drawString("Time elapsed: " + t.getTimeRunningString(), 50, 100);
-
-
     }
 }

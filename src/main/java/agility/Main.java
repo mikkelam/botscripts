@@ -19,9 +19,9 @@ import org.tbot.wrappers.Timer;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.function.BiConsumer;
 
 import agility.Obstacles.*;
+import util.SkillTracker;
 
 /**
  * Code stolen from https://gist.github.com/anonymous/504724c2bc69948151a9
@@ -322,7 +322,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
                 }
             } else if (Bank.openNearestBank())
                 LogHandler.log("Going to bank.");
-            Time.sleepUntil(() -> Bank.isOpen(), 1200);
+            Time.sleepUntil(Bank::isOpen, 1200);
 
 
         }
@@ -336,7 +336,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
             GameObject gate = GameObjects.getNearest("Gate");
             if (!NPCChat.isChatOpen()) {
                 util.interact(gate, "Open");
-                Time.sleepUntil(() -> NPCChat.isChatOpen(), 1200);
+                Time.sleepUntil(NPCChat::isChatOpen, 1200);
             } else {
                 if(NPCChat.canContinue()) {
                     NPCChat.clickContinue();

@@ -1,4 +1,4 @@
-package agility;
+package util;
 import org.tbot.methods.Skills;
 import org.tbot.methods.Skills.Skill;
 import org.tbot.wrappers.Timer;
@@ -35,7 +35,6 @@ public class SkillTracker {
      */
 
     public Skill getTrackedSkill() {
-
         return skill;
     }
 
@@ -46,7 +45,6 @@ public class SkillTracker {
      */
 
     public long getTimeTracking() {
-
         return startTimer.getElapsed();
     }
 
@@ -57,18 +55,16 @@ public class SkillTracker {
      */
 
     public String getFormattedTimeTracking() {
-
         return Timer.format(getTimeTracking());
     }
 
     /**
      * Gets the remaining experience to the next level.
      *
-     * @return The experience amount to level as an <code>int</code>.
+     * @return The experience amount to level as an {int}.
      */
 
     public int getExperienceToLevel() {
-
         return getExperienceToLevel(Skills.getRealLevel(skill) + 1);
     }
 
@@ -79,7 +75,6 @@ public class SkillTracker {
      */
 
     public String getTimeToLevel() {
-
         return getExperiencePerHour() > 0 ? Timer.format((long) ((getExperienceToLevel() * 3600000.0) / getExperiencePerHour())) : "Unknown";
     }
 
@@ -90,7 +85,6 @@ public class SkillTracker {
      */
 
     public int getCurrentLevel() {
-
         return Skills.getRealLevel(skill);
     }
 
@@ -101,7 +95,6 @@ public class SkillTracker {
      */
 
     public int getLevelsGained() {
-
         return getCurrentLevel() - startLevel;
     }
 
@@ -112,7 +105,6 @@ public class SkillTracker {
      */
 
     public int getExperienceGained() {
-
         return Skills.getExperience(skill) - startExperience;
     }
 
@@ -123,7 +115,6 @@ public class SkillTracker {
      */
 
     public int getExperiencePerHour() {
-
         return (int) (getExperienceGained() * 3600000.0D / getTimeTracking());
     }
 
@@ -136,7 +127,6 @@ public class SkillTracker {
      */
 
     public int getExperienceToLevel(int level) {
-
         if (level > 99) {
             return 0;
         }
