@@ -85,8 +85,6 @@ public class GameUtil {
         }
     }
 
-
-
     public boolean handleWall(Tile tileArg, String objName, String action) {
         final Tile tile = tileArg;
         final GameObject wall = GameObjects.getNearest(object -> object.getName().equals(objName) && object.getLocation().equals(tile));

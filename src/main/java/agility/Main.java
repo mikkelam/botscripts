@@ -117,8 +117,6 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
                                         Camera.turnTo(tile);
                                     }
                                 });
-
-
                             runnable.run();
                         }
 
@@ -127,9 +125,8 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
             } else handleFood();
 
             if (util.markGrace() != null && !Players.getLocal().isMoving()) {
-                if (util.markGrace().isOnScreen() ? util.markGrace().pickUp() : Walking.walkTileMM(util.markGrace().getLocation())) {
+                if (util.markGrace().isOnScreen() ? util.markGrace().pickUp() : Walking.walkTileMM(util.markGrace().getLocation()))
                     Time.sleepUntil(() -> util.markGrace() == null, Random.nextInt(1200, 1650));
-                }
             }
 
         } else {
@@ -369,9 +366,10 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
     public void onRepaint(Graphics graphics) {
         mt.draw(graphics);
         mt.setColor(Color.ORANGE);
+        graphics.drawString("Time running: " + tracker.getFormattedTimeTracking(), 8, 15);
         graphics.drawString("XP/H" + tracker.getExperiencePerHour(), 8, 30);
         graphics.drawString("Marks Looted: " + marksLooted, 8, 45);
-        graphics.drawString("Time running: " + tracker.getFormattedTimeTracking(), 8, 15);
+        graphics.drawString("Time to level: " + tracker.getTimeToLevel(), 8, 60);
     }
 
     @Override
