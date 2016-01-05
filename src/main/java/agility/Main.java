@@ -59,8 +59,9 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
         hashMaps.put(draynorMap, currentLevel() >= 10 && currentLevel() < 30);
         hashMaps.put(varrockMap, currentLevel() >= 30  && currentLevel() < 40);
         hashMaps.put(canifisMap, currentLevel() >= 40  && currentLevel() < 50);
-        hashMaps.put(faladorMap, currentLevel() >= 50 && currentLevel() < 70);
-        hashMaps.put(seersMap, currentLevel() >= 70 && currentLevel() < 80);
+        hashMaps.put(faladorMap, currentLevel() >= 50 && currentLevel() < 60);
+        hashMaps.put(seersMap, currentLevel() >= 60 && currentLevel() < 80);
+        // Preferably Pollnivneach Agility Course from 70 to 80, and Seers to 70
         hashMaps.put(rellekaMap, currentLevel() >= 80 && currentLevel() < 90);
         hashMaps.put(ardyMap, currentLevel() >= 90);
     }
@@ -156,7 +157,6 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
         gnomeMap.put(inArea(new Area(new Tile[]{new Tile(2490, 3427, 0), new Tile(2482, 3427, 0), new Tile(2481, 3434, 0), new Tile(2490, 3435, 0)})), () -> util.interact(new GObject("Obstacle pipe").getObject(), "Squeeze-through"));
     }
 
-
     private void populateDraynor() {
         draynorMap.put(Draynor.roughWallTile, () -> util.handleWall(Draynor.roughWallTile, "Rough wall", "Climb"));
         draynorMap.put(Draynor.firstRopeTile, () -> util.interact(new GObject("Tightrope", new Tile(3098, 3277, 3)).getObject(), "Cross"));
@@ -242,7 +242,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
     final String[] gamesNecks = {"Games necklace(1)", "Games necklace(2)", "Games necklace(3)", "Games necklace(4)", "Games necklace(5)", "Games necklace(6)", "Games necklace(7)", "Games necklace(8)"};
 
     private void handleFood() {
-        Item food = Inventory.getItemClosestToMouse("Trout");
+        Item food = Inventory.getItemClosestToMouse("Tuna");
         if (Inventory.isOpen()) {
             if (food != null) {
                 final int currentHP = Skills.getCurrentLevel(Skills.Skill.HITPOINTS);
@@ -367,7 +367,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
         mt.draw(graphics);
         mt.setColor(Color.ORANGE);
         graphics.drawString("Time running: " + tracker.getFormattedTimeTracking(), 8, 15);
-        graphics.drawString("XP/H" + tracker.getExperiencePerHour(), 8, 30);
+        graphics.drawString("XP/H: " + tracker.getExperiencePerHour(), 8, 30);
         graphics.drawString("Marks Looted: " + marksLooted, 8, 45);
         graphics.drawString("Time to level: " + tracker.getTimeToLevel(), 8, 60);
     }
