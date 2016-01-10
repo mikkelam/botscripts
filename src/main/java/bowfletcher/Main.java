@@ -63,8 +63,9 @@ public class Main extends AbstractScript implements PaintListener {
             Antiban.doSomethingRandom();
 
         if(PlayerUtil.isIdle()) { // Wait until player is idle
-            if(Inventory.contains("Knife") && Inventory.contains(logForBowType(selectedBowType)))
+            if(Inventory.contains("Knife") && Inventory.contains(logForBowType(selectedBowType))) {
                 fletch();
+            }
             else
                 bankGoods();
         }
@@ -108,7 +109,7 @@ public class Main extends AbstractScript implements PaintListener {
 
             Time.sleep(Random.nextInt(200, 500));
 
-            Bank.withdrawAll("Willow logs");
+            Bank.withdrawAll(logForBowType(selectedBowType));
 
             while(Bank.isOpen())
                 Bank.close();
