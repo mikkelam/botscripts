@@ -67,15 +67,11 @@ public class MainHandler extends AbstractScript implements MessageListener, Pain
                 wp.traverse();
             }
         }
-        return Random.nextInt(500,
-                850);
+        return Random.nextInt(500, 850);
     }
 
     private SkillPaint sp = new SkillPaint();
     private MouseTrail mt = new MouseTrail();
-
-    public void antiban() {
-    }
 
     public void messageReceived(MessageEvent messageEvent) {
     }

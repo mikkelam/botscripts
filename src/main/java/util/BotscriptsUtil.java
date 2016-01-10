@@ -1,12 +1,17 @@
 package util;
 
+import org.tbot.a.Con;
+import org.tbot.bot.TBot;
+import org.tbot.methods.Random;
+import org.tbot.methods.Time;
+import org.tbot.util.Condition;
 import org.tbot.wrappers.GameObject;
 import org.tbot.methods.GameObjects;
 import org.tbot.methods.walking.Path;
 import org.tbot.methods.walking.Walking;
 import org.tbot.wrappers.Tile;
 
-public final class Util {
+public final class BotscriptsUtil {
     public static GameObject getSecondNearest(GameObject gb) {
         return GameObjects.getNearest(o -> o.getUID() != gb.getUID() && o.getName().equals(gb.getName()));
     }
@@ -32,5 +37,18 @@ public final class Util {
             return path != null && path.traverse();
         }
         return o.interact(action);
+    }
+
+    public static void pauseScript() {
+        TBot.getBot().getScriptHandler().getScript().setPaused(false);
+    }
+
+    public static void unpauseScript() {
+        TBot.getBot().getScriptHandler().getScript().setPaused(true);
+    }
+
+    public static void sleepConditionWithExtraWait(Condition a, int min, int max) {
+        Time.sleepUntil(a, Random.nextInt(min, max));
+        Time.sleep(Random.nextInt(min, max));
     }
 }

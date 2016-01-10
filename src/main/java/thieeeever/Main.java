@@ -5,7 +5,6 @@ import org.tbot.graphics.MouseTrail;
 import org.tbot.internal.event.listeners.PaintListener;
 import org.tbot.methods.Time;
 import org.tbot.methods.tabs.Inventory;
-import org.tbot.util.Condition;
 import org.tbot.wrappers.GameObject;
 import org.tbot.internal.AbstractScript;
 import org.tbot.internal.Manifest;
@@ -17,7 +16,7 @@ import org.tbot.wrappers.Timer;
 import util.Antiban;
 import util.AntibanChoice;
 import util.PlayerUtil;
-import util.Util;
+import util.BotscriptsUtil;
 
 import java.awt.*;
 
@@ -54,7 +53,7 @@ public class Main extends AbstractScript implements PaintListener {
         GameObject stall = GameObjects.getNearest(stallName);
 
         if(PlayerUtil.isIdle()) {
-            boolean playerIsBusy = Util.interact(stall, "Steal-from", nearbyTile);
+            boolean playerIsBusy = BotscriptsUtil.interact(stall, "Steal-from", nearbyTile);
 
             if(playerIsBusy)
                 Time.sleepUntil(PlayerUtil::isIdle, Random.nextInt(200, 300));
