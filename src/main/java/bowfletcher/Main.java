@@ -27,9 +27,6 @@ import java.awt.*;
         description = "Creates bows (u), because bow fletching is boring af",
         category = ScriptCategory.FLETCHING
 )
-/***
- * WARNING: Does not handle level ups every well. So keep checking
- */
 public class Main extends AbstractScript implements PaintListener {
     private final SkillTracker tracker = new SkillTracker(Skills.Skill.FLETCHING);
     private boolean makeShortbow;
@@ -80,8 +77,6 @@ public class Main extends AbstractScript implements PaintListener {
         if(chatBox.isVisible() || levelUp.isVisible())
             Inventory.useItemOn(knife, logs);
 
-        //BotscriptsUtil.sleepConditionWithExtraWait(() -> shortBow.isVisible() || longBow.isVisible(), 750, 1500);
-
         if(shortBow.isVisible() || longBow.isVisible()) {
             if(makeShortbow)
                 shortBow.interact("Make X");
@@ -118,10 +113,6 @@ public class Main extends AbstractScript implements PaintListener {
         BotscriptsUtil.sleepConditionWithExtraWait(() -> !Bank.isOpen(), 0, 500);
     }
 
-    private int currentLevel() {
-        return Skills.getCurrentLevel(Skills.Skill.FLETCHING);
-    }
-
     private String logForBowType(String bowType) {
         if(bowType.equals("Shortbow") || bowType.equals("Longbow"))
             return "Logs";
@@ -137,7 +128,7 @@ public class Main extends AbstractScript implements PaintListener {
         graphics.drawString("Time running: " + tracker.getFormattedTimeTracking(), 8, 15);
         graphics.drawString("XP/H: " + tracker.getExperiencePerHour(), 8, 30);
         graphics.drawString("Time to level: " + tracker.getTimeToLevel(), 8, 45);
-        graphics.drawString("Level: " + currentLevel(), 8, 60);
+        graphics.drawString("Level: " + tracker.getCurrentLevel(), 8, 60);
     }
 
 

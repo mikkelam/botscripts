@@ -9,6 +9,8 @@ import org.tbot.wrappers.GameObject;
 import org.tbot.methods.GameObjects;
 import org.tbot.methods.walking.Path;
 import org.tbot.methods.walking.Walking;
+import org.tbot.wrappers.Interactable;
+import org.tbot.wrappers.Locatable;
 import org.tbot.wrappers.Tile;
 
 public final class BotscriptsUtil {
@@ -24,7 +26,7 @@ public final class BotscriptsUtil {
      * @param nearbyTile A {Tile} close to {o}
      * @return The result of interacting with an object.
      */
-    public static boolean interact(final GameObject o, final String action, final Tile nearbyTile) {
+    public static <T extends Interactable & Locatable>  boolean interact(T o, final String action, final Tile nearbyTile) {
         // If object is null, create path to nearby tile, and return traverse
         if(o == null) {
             Path path = Walking.findPath(nearbyTile);
