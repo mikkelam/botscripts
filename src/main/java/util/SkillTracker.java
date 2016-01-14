@@ -75,7 +75,9 @@ public class SkillTracker {
      */
 
     public String getTimeToLevel() {
-        return getExperiencePerHour() > 0 ? Timer.format((long) ((getExperienceToLevel() * 3600000.0) / getExperiencePerHour())) : "Unknown";
+        if (getExperiencePerHour() > 0)
+            return Timer.format((long) ((getExperienceToLevel() * 3600000.0) / getExperiencePerHour()));
+        else return "Unknown";
     }
 
     /**
