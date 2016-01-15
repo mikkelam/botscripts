@@ -1,6 +1,5 @@
 package util;
 
-import org.tbot.a.Con;
 import org.tbot.bot.TBot;
 import org.tbot.methods.Random;
 import org.tbot.methods.Time;
@@ -12,6 +11,8 @@ import org.tbot.methods.walking.Walking;
 import org.tbot.wrappers.Interactable;
 import org.tbot.wrappers.Locatable;
 import org.tbot.wrappers.Tile;
+
+import java.awt.*;
 
 public final class BotscriptsUtil {
     public static GameObject getSecondNearest(GameObject gb) {
@@ -41,16 +42,31 @@ public final class BotscriptsUtil {
         return o.interact(action);
     }
 
-    public static void pauseScript() {
+    public static void unpauseScript() {
         TBot.getBot().getScriptHandler().getScript().setPaused(false);
     }
 
-    public static void unpauseScript() {
+    public static void pauseScript() {
         TBot.getBot().getScriptHandler().getScript().setPaused(true);
     }
 
     public static void sleepConditionWithExtraWait(Condition a, int min, int max) {
         Time.sleepUntil(a, Random.nextInt(min, max));
         Time.sleep(Random.nextInt(min, max));
+    }
+
+    public static int minToMilli(int min) {
+        return secToMs(min * 60);
+    }
+
+    public static int secToMs(int sec) {
+        return sec * 1000;
+    }
+
+    public static void showSimpleStats(Graphics graphics, SkillTracker tracker) {
+        graphics.drawString("Time running: " + tracker.getFormattedTimeTracking(), 8, 15);
+        graphics.drawString("XP/H: " + tracker.getExperiencePerHour(), 8, 30);
+        graphics.drawString("Time to level: " + tracker.getTimeToLevel(), 8, 45);
+        graphics.drawString("Level: " + tracker.getCurrentLevel(), 8, 60);
     }
 }
