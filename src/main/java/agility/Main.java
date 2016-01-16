@@ -98,7 +98,6 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
 
     @Override
     public int loop() {
-        Antiban.doSomethingRandom();
 
         if(currentLevel() >= 10) {
             hashMaps.forEach((tileRunnableLinkedHashMap, aBool) -> tileRunnableLinkedHashMap.forEach((tile, runnable) -> {

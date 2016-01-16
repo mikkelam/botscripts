@@ -132,7 +132,7 @@ public class GameUtil {
 
     public boolean handleWallWalk(Tile tileArg,Tile toWalk, String objName, String action) {
         GameObject wall = GameObjects.getNearest(object -> object.getName().equals(objName) && object.getLocation().equals(tileArg));
-        if (wall == null) {
+        if (wall == null || wall.distance()>4 ) {
             Path path = Walking.findPath(toWalk);
             if (path != null) {
                 if (path.traverse()) {
