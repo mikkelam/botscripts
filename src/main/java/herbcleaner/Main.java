@@ -87,7 +87,10 @@ public class Main extends AbstractScript implements MessageListener, PaintListen
     public void banking(){
         if (Bank.isOpen()){
             Bank.depositAll();
-            Bank.withdrawAll(herb);
+            if (Bank.contains(herb))
+               Bank.withdrawAll(herb);
+            else
+                System.exit(0);
             toClickIdx=0;
         }
         else{
