@@ -71,7 +71,7 @@ public class Obstacles {
     }
 
     public static class Canifis {
-        public static final Tile startTile = new Tile(3508,3488, 0);
+        public static final Tile treeWalkTile = new Tile(3508,3488, 0);
         public static final Tile treeTile = new Tile(3508,3489, 0);
         public static final Tile firstGapTile = new Tile(3506,3497,2);
         public static final Tile secondGapTile = new Tile(3498,3504,2);
@@ -131,6 +131,7 @@ public class Obstacles {
     }
 
     public static class Seers {
+        public static final Tile wallWalkTile = new Tile(2729, 3487, 0);
         public static final Tile wallTile = new Tile(2729, 3489, 0);
         public static final Tile firstGapTile = new Tile(2724, 3493, 3); //Jump
         public static final Tile firstRopeTile = new Tile(2709, 3490, 2); //Cross

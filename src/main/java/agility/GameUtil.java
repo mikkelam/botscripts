@@ -130,6 +130,25 @@ public class GameUtil {
         return true;
     }
 
+    public boolean handleWallWalk(Tile tileArg,Tile toWalk, String objName, String action) {
+        GameObject wall = GameObjects.getNearest(object -> object.getName().equals(objName) && object.getLocation().equals(tileArg));
+        if (wall == null) {
+            Path path = Walking.findPath(toWalk);
+            if (path != null) {
+                if (path.traverse()) {
+                    Time.sleep(100, 200);
+                    if (Walking.getDestinationDistance() > 3 && Players.getLocal().isMoving()) {
+                        Time.sleepUntil(() -> Walking.getDestinationDistance() <= 3, Random.nextInt(800, 1200));
+                    }
+                }
+
+            }
+        }
+
+        return handleWall(tileArg,objName,action);
+    }
+
+
 
     public boolean setRun() {
         if(!Walking.isRunEnabled() && Walking.getRunEnergy() >= Random.nextInt(34,52)) {
@@ -189,49 +208,6 @@ public class GameUtil {
         return false;
     }
 
-   /* public boolean interact(String obstacleName, Tile[] tiles, String action) {
-
-            if (Menu.getUpText().contains(action + " " + obstacleName)) {
-                Mouse.click(true);
-                Time.sleep(50, 75);
-                if (Mouse.getClickState() == Mouse.CURSOR_STATE_RED)
-                    Time.sleepUntil(() -> Players.getLocal().isMoving(), Random.nextInt(1650, 2100));
-            } else {
-                for (Tile t : tiles) {
-                    if (t != null && t.isOnScreen() && t.distance() <= 4) {
-                        if(t.getBounds() !=null && t.getBounds().getBounds() !=null) {
-                            int x = (int) t.getBounds().getBounds().getCenterX();
-                            int y = (int) t.getBounds().getBounds().getCenterY();
-                            Point point = new Point(x, y);
-                            if (Mouse.move(point) && Menu.getUpText().contains(action + " " + obstacleName)) {
-                                break;
-                            } else {
-                                Mouse.click(true);
-                                Time.sleep(30, 45);
-                                if (Mouse.getClickState() == Mouse.CURSOR_STATE_RED) {
-                                    Time.sleepUntil(() -> Players.getLocal().isMoving(), Random.nextInt(1650, 2100));
-                                }
-                            }
-                        } else {
-                            Mouse.click(t.getMinimapPoint(), true);
-                            Time.sleepUntil(() -> t.getBounds() != null, 1200);
-                        }
-                    } else {
-                        if (t != null) {
-                            if (t.distance() > 4) {
-                                Path path = Walking.findLocalPath(getNearestTileTo(Players.getLocal(), t, null));
-                                if ((t.isOnMiniMap()) ? Walking.walkTileMM(getNearestTileTo(Players.getLocal(), t, null)) : (path != null && path.traverse())) {
-                                    sleepDistance();
-                                }
-                            } else {
-                              Camera.tiltRandomly();
-                            }
-                        }
-                    }
-                }
-            }
-        return true;
-    } */
 
 
 }

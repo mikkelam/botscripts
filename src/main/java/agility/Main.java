@@ -21,18 +21,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import agility.Obstacles.*;
+import util.Antiban;
 import util.SkillTracker;
 
 /**
  * Code stolen from https://gist.github.com/anonymous/504724c2bc69948151a9
  * Inserted by Saph
  * Needs a lot of fixing.
- * confirmed entirely working:
- * Draynor
- * Varrock
  *
  */
-@Manifest(authors = "Mad", name = "AgilityPro Revamped")
+@Manifest(authors = "Mad", name = "Rooftop Agility")
 public class Main extends AbstractScript implements PaintListener, InventoryListener {
 
     private final Timer hopTimer = new Timer(Random.nextInt(2700000, (int) 4.5e+6));
@@ -100,6 +98,8 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
 
     @Override
     public int loop() {
+        Antiban.doSomethingRandom();
+
         if(currentLevel() >= 10) {
             hashMaps.forEach((tileRunnableLinkedHashMap, aBool) -> tileRunnableLinkedHashMap.forEach((tile, runnable) -> {
                 if (aBool) {
@@ -180,8 +180,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
     }
 
     private void populateCanifis() {
-        canifisMap.put(Canifis.startTile, () -> Walking.findPath(Canifis.startTile).traverse());
-        canifisMap.put(Canifis.treeTile, () -> util.handleWall(Canifis.treeTile, "Tall tree", "Climb"));
+        canifisMap.put(Canifis.treeTile, () -> util.handleWallWalk(Canifis.treeTile,Canifis.treeWalkTile, "Tall tree", "Climb"));
         canifisMap.put(Canifis.firstGapTile, () -> util.interact(new GObject("Gap").getObject(), "Jump"));
         canifisMap.put(Canifis.secondGapTile, () -> util.interact(new GObject("Gap", new Tile(3496,3504,2)).getObject(), "Jump"));
         canifisMap.put(Canifis.thirdGapTile, () -> util.interact(new GObject("Gap", new Tile(3486,3499,2)).getObject(), "Jump"));
@@ -208,7 +207,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
     }
 
     private void populateSeers() {
-        seersMap.put(Seers.wallTile, () -> util.handleWall(Seers.wallTile, "Wall", "Climb-up"));
+        seersMap.put(Seers.wallTile, () -> util.handleWallWalk(Seers.wallTile,Seers.wallWalkTile, "Wall", "Climb-up"));
         seersMap.put(Seers.firstGapTile, () -> util.interact(new GObject("Gap").getObject(), "Jump"));
         seersMap.put(Seers.firstRopeTile, () -> util.interact(new GObject("Tightrope").getObject(), "Cross"));
         seersMap.put(Seers.secondGapTile, () -> util.interact(new GObject("Gap").getObject(), "Jump"));

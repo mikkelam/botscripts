@@ -14,7 +14,7 @@ public final class Antiban {
      * @return The choice made, if any.
      */
     public static AntibanChoice doSomethingRandom() {
-        switch(Random.nextInt(0, 10)) {
+        switch(Random.nextInt(0, 100)) {
             case 1:
                 openRandomTab();
                 return AntibanChoice.OPEN_RANDOM_TAB;
@@ -36,4 +36,25 @@ public final class Antiban {
         int randomTab = Random.randomFromArray(Widgets2.tabIDs());
         return Widgets2.openTab(randomTab);
     }
+
+    /**
+     * Should open stat tab and ponder over stats and exp
+     * @return
+     */
+    public static void statPonder(){
+
+    }
+
+    /**
+     * Should take break from botting
+     * @return
+     */
+    public static void botBreak(){
+
+    }
+
+
+
+
+
 }
