@@ -90,7 +90,7 @@ public class Main extends AbstractScript implements MessageListener, PaintListen
             if (Bank.contains(herb))
                Bank.withdrawAll(herb);
             else
-                System.exit(0);
+                throw new NullPointerException();
             toClickIdx=0;
         }
         else{
