@@ -18,6 +18,7 @@ import org.tbot.methods.tabs.Inventory;
 import org.tbot.methods.walking.Walking;
 import org.tbot.wrappers.NPC;
 import org.tbot.wrappers.Player;
+import org.tbot.wrappers.Tile;
 import util.PlayerUtil;
 import util.SkillTracker;
 
@@ -69,7 +70,14 @@ public class Main extends AbstractScript implements PaintListener {
 
 
         if (!PlayerUtil.isMoving()) {
+            if (Players.getLocal().getInteractingEntity() != null) {
+                if (Players.getLocal().getInteractingEntity().getName().equals("Market Guard"))
+                    Walking.walkTileMM(new Tile(3093,3244,0));
+                    return Random.nextInt(500, 1500);
+            }
             if (Inventory.contains(food) && Inventory.getEmptySlots() > 0) {
+                if (Bank.isOpen())
+                    Bank.close();
                 if (currentHP != PlayerUtil.currentHP()) {
                     steal();
                     currentHP = PlayerUtil.currentHP();
@@ -92,12 +100,16 @@ public class Main extends AbstractScript implements PaintListener {
     }
     public void steal(){
         NPC npc = Npcs.getNearest("Master Farmer");
-        if (npc.isOnScreen()){
+        if(npc==null){
+            Walking.walkTileMM(new Tile(3079,3250,0));
+        }
+        else if (npc.isOnScreen()){
             Mouse.move(npc.toScreen().x + Random.nextInt(1,3),npc.toScreen().y - Random.nextInt(1,3));
             if(Menu.getUpText().contains("Pickpocket" + " " + npc.getName())) {
                 Mouse.click(true);
             }
         }
+
         else{
             Walking.walkTileMM(npc.getLocation());
         }
