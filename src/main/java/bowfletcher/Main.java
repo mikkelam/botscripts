@@ -32,7 +32,7 @@ public class Main extends AbstractScript implements PaintListener {
     private boolean makeShortbow;
     private String selectedBowType;
     private static final String[] bowTypes = new String[] { "Shortbow", "Longbow", "Oak", "Willow", "Maple", "Yew", "Magic" };
-    private static final String[] bowStyles = new String[] { "Shortbow", "Longbow" };
+    private static final String[] bowLengths = new String[] { "Shortbow", "Longbow" };
     private WidgetChild shortBow = Widgets.getWidget(304, 8);
     private WidgetChild longBow  = Widgets.getWidget(304, 12);
     private WidgetChild inputBox = Widgets.getWidget(162, 32);
@@ -46,10 +46,10 @@ public class Main extends AbstractScript implements PaintListener {
         selectedBowType = (String)JOptionPane.showInputDialog(null, "Please choose a bow", "Test",
                 JOptionPane.QUESTION_MESSAGE, null, bowTypes, bowTypes[4]);
 
-        String bowStyleSelection = (String)JOptionPane.showInputDialog(null, "Please choose a bow type", "Test",
-                JOptionPane.QUESTION_MESSAGE, null, bowStyles, bowStyles[1]);
+        String bowLengthSelection = (String)JOptionPane.showInputDialog(null, "Please choose a bow length", "Test",
+                JOptionPane.QUESTION_MESSAGE, null, bowLengths, bowLengths[1]);
 
-        makeShortbow = bowStyleSelection.equals(bowStyles[0]);
+        makeShortbow = bowLengthSelection.equals(bowLengths[0]);
 
         return super.onStart();
     }
@@ -125,10 +125,7 @@ public class Main extends AbstractScript implements PaintListener {
     public void onRepaint(Graphics graphics) {
         mt.draw(graphics);
         mt.setColor(Color.ORANGE);
-        graphics.drawString("Time running: " + tracker.getFormattedTimeTracking(), 8, 15);
-        graphics.drawString("XP/H: " + tracker.getExperiencePerHour(), 8, 30);
-        graphics.drawString("Time to level: " + tracker.getTimeToLevel(), 8, 45);
-        graphics.drawString("Level: " + tracker.getCurrentLevel(), 8, 60);
+        BotscriptsUtil.showSimpleStats(graphics, tracker);
     }
 
 
