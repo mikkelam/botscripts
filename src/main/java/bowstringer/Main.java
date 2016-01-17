@@ -95,16 +95,18 @@ public class Main extends AbstractScript implements PaintListener {
             Time.sleep(50, 250);
 
             Bank.withdraw(getSelectedUnsrungBow(), 14);
-            Bank.withdraw("Bow string", 14);
+            Time.sleep(1000, 2000);
+            Bank.withdrawAll("Bow string");
 
             if(!Bank.contains(getSelectedUnsrungBow()) || !Bank.contains("Bow string")) {
                 log("STOPPING SCRIPT: Unable to find " + getSelectedUnsrungBow() + " or Bow strings in bank");
                 BotscriptsUtil.pauseScript();
             }
 
-
             while(Bank.isOpen())
                 Bank.close();
+
+            Time.sleep(250, 2000);
         }
 
         BotscriptsUtil.sleepConditionWithExtraWait(() -> !Bank.isOpen(), 0, 500);
