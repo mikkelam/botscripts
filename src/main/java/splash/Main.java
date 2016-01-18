@@ -62,7 +62,10 @@ public class Main extends AbstractScript implements PaintListener {
             Time.sleep(5000);
             throw new NullPointerException();
         }
-        if (!Players.getLocal().isHealthBarVisible()) {
+        else if(Widgets.getWidget(593,28).getText().contains("Off")){
+            Widgets.getWidget(593,28).click();
+        }
+        else if (!Players.getLocal().isHealthBarVisible()) {
             NPC rat = Npcs.getNearest(targetFilter);
             rat.interact("Attack");
             attackTimer = new Timer(600000,1200000);
