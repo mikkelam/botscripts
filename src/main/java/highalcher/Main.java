@@ -9,11 +9,13 @@ import org.tbot.methods.*;
 import org.tbot.methods.combat.magic.Magic;
 import org.tbot.methods.combat.magic.SpellBooks;
 import org.tbot.methods.tabs.Inventory;
+import org.tbot.wrappers.Item;
 import org.tbot.wrappers.WidgetChild;
 import util.BotscriptsUtil;
 import util.PlayerUtil;
 import util.SkillTracker;
 
+import javax.swing.*;
 import java.awt.*;
 
 @Manifest(
@@ -28,20 +30,23 @@ import java.awt.*;
 public class Main extends AbstractScript implements PaintListener {
     private final SkillTracker tracker = new SkillTracker(Skills.Skill.MAGIC);
     private final MouseTrail mt = new MouseTrail();
-    private boolean alchingHasBegun = false;
+    private Item highAlchItemTest;
     private WidgetChild highAlchWidget = Widgets.getWidget(218, 35);
     private WidgetChild magicTabWidget = Widgets.getWidget(548, 58);
 
     @Override
     public boolean onStart() {
+        log("Martin's high alcher has started. Please place the item you wish to high alch in inventory slot #16 (closest to high alch button).");
+
         magicTabWidget.click();
+        highAlchItemTest = Inventory.getInSlot(15);
 
         return super.onStart();
     }
 
     @Override
     public int loop() {
-        if(Magic.hasRunesOrStaff(SpellBooks.Modern.HIGH_LEVEL_ALCHEMY) && Inventory.contains("Yew Longbow")) {
+        if(Magic.hasRunesOrStaff(SpellBooks.Modern.HIGH_LEVEL_ALCHEMY) && highAlchItemTest != null) {
             if(highAlchWidget.isVisible()) {
                 highAlchWidget.click();
 
@@ -49,7 +54,7 @@ public class Main extends AbstractScript implements PaintListener {
                 Time.sleep(300, 800);
 
                 if(Inventory.isOpen()) {
-                    Inventory.getFirst("Yew Longbow").click();
+                    highAlchItemTest.click();
 
                     Time.sleepUntil(highAlchWidget::isVisible, 5000);
                     Time.sleep(250, 500);

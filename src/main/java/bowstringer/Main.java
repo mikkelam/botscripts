@@ -55,9 +55,8 @@ public class Main extends AbstractScript implements PaintListener {
             Antiban.doSomethingRandom();
 
         if(PlayerUtil.isIdle()) { // Wait until player is idle
-            if(Inventory.contains(getSelectedUnsrungBow()) && Inventory.contains("Bow string")) {
+            if(Inventory.contains(getSelectedUnsrungBow()) && Inventory.contains("Bow string"))
                 string();
-            }
             else
                 bankGoods();
         }
@@ -74,14 +73,12 @@ public class Main extends AbstractScript implements PaintListener {
             Inventory.useItemOn(bowStrings, bows);
         }
 
-        BotscriptsUtil.sleepConditionWithExtraWait(() -> bowBox.isVisible(), 50, 250);
+        Time.sleepUntil(bowBox::isVisible, 5000);
 
         if(bowBox.isVisible()) {
             bowBox.interact("Make All");
-            Time.sleep(BotscriptsUtil.secToMs(15), BotscriptsUtil.secToMs(20)); //, BotscriptsUtil.secToMs(55));
+            Time.sleep(BotscriptsUtil.secToMs(15), BotscriptsUtil.secToMs(20));
         }
-
-
     }
 
     private void bankGoods() {
@@ -90,16 +87,19 @@ public class Main extends AbstractScript implements PaintListener {
         BotscriptsUtil.sleepConditionWithExtraWait(Bank::isOpen, 0, 500);
 
         if(Bank.isOpen()) {
-            Bank.depositAll();
+            if(!Inventory.isEmpty()) {
+                Time.sleep(200, 500);
+                Bank.depositAll();
+            }
 
-            Time.sleep(50, 250);
-
-            Bank.withdraw(getSelectedUnsrungBow(), 14);
-            Time.sleep(1000, 2000);
-            Bank.withdrawAll("Bow string");
-
-            if(!Bank.contains(getSelectedUnsrungBow()) || !Bank.contains("Bow string")) {
-                log("STOPPING SCRIPT: Unable to find " + getSelectedUnsrungBow() + " or Bow strings in bank");
+            if(Bank.contains(getSelectedUnsrungBow()) && Bank.contains("Bow string")) {
+                Bank.withdraw(getSelectedUnsrungBow(), 14);
+                Time.sleep(1000, 2000);
+                Bank.withdrawAll("Bow string");
+                Time.sleep(250, 750);
+            }
+            else {
+                log("Don't have any " + getSelectedUnsrungBow() + "s, or bow strings in bank. Stopping script.");
                 BotscriptsUtil.pauseScript();
             }
 
@@ -108,8 +108,6 @@ public class Main extends AbstractScript implements PaintListener {
 
             Time.sleep(250, 2000);
         }
-
-        BotscriptsUtil.sleepConditionWithExtraWait(() -> !Bank.isOpen(), 0, 500);
     }
 
     public String getSelectedUnsrungBow() {

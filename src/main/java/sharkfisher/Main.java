@@ -1,6 +1,5 @@
 package sharkfisher;
 
-import org.tbot.client.*;
 import org.tbot.graphics.MouseTrail;
 import org.tbot.internal.AbstractScript;
 import org.tbot.internal.Manifest;
@@ -10,12 +9,12 @@ import org.tbot.internal.event.listeners.InventoryListener;
 import org.tbot.internal.event.listeners.PaintListener;
 import org.tbot.methods.*;
 import org.tbot.methods.tabs.Inventory;
-import org.tbot.methods.web.banks.WebBank;
-import org.tbot.wrappers.*;
-import org.tbot.wrappers.Character;
 import org.tbot.wrappers.NPC;
-import org.tbot.wrappers.Player;
-import util.*;
+import org.tbot.wrappers.Tile;
+import util.Antiban;
+import util.BotscriptsUtil;
+import util.PlayerUtil;
+import util.SkillTracker;
 
 import java.awt.*;
 
