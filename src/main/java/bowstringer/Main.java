@@ -87,16 +87,25 @@ public class Main extends AbstractScript implements PaintListener {
         BotscriptsUtil.sleepConditionWithExtraWait(Bank::isOpen, 0, 500);
 
         if(Bank.isOpen()) {
+            Time.sleep(200, 500);
+            
             if(!Inventory.isEmpty()) {
-                Time.sleep(200, 500);
                 Bank.depositAll();
             }
 
             if(Bank.contains(getSelectedUnsrungBow()) && Bank.contains("Bow string")) {
-                Bank.withdraw(getSelectedUnsrungBow(), 14);
-                Time.sleep(1000, 2000);
-                Bank.withdrawAll("Bow string");
-                Time.sleep(250, 750);
+                if(!Inventory.contains(getSelectedUnsrungBow())) {
+                    Bank.withdraw(getSelectedUnsrungBow(), 14);
+                    Time.sleepUntil(() -> Inventory.contains(getSelectedUnsrungBow()), 5000);
+                    Time.sleep(1000, 2000);
+                }
+
+                if(!Inventory.contains("Bow string")) {
+                    Bank.withdrawAll("Bow string");
+                    Time.sleepUntil(() -> Inventory.contains("Bow string"), 5000);
+                    Time.sleep(250, 750);
+                }
+
             }
             else {
                 log("Don't have any " + getSelectedUnsrungBow() + "s, or bow strings in bank. Stopping script.");
