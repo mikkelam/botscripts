@@ -60,7 +60,7 @@ public class Main extends AbstractScript implements PaintListener, InventoryList
 
 
         BotscriptsUtil.interact(spot, "Harpoon", new Tile(2598, 3421, 0));
-        Time.sleep(1000, 2500);
+        Time.sleep(4000, 7500);
 
         try {
             BotscriptsUtil.sleepConditionWithExtraWait(() -> spot.distance() < 2, 200, 2500);
