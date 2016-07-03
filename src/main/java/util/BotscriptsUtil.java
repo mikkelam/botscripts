@@ -82,6 +82,10 @@ public final class BotscriptsUtil {
         return Widgets.getWidget(309, 6);
     }
 
+    public static WidgetChild levelUpWidget() {
+        return Widgets.getWidget(233, 1);
+    }
+
     public static void BankAllAndWithdraw(int numToWithDraw, String... withdrawItems) {
         Bank.openNearestBank();
 

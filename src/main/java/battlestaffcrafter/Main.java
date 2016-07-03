@@ -29,6 +29,8 @@ public class Main extends AbstractScript implements PaintListener {
     private final SkillTracker tracker = new SkillTracker(Skills.Skill.CRAFTING);
     private final MouseTrail mt = new MouseTrail();
     private final WidgetChild craftBox = BotscriptsUtil.interactWidget();
+    private final WidgetChild chatBox = BotscriptsUtil.chatBoxWidget();
+    private final WidgetChild levelUp = BotscriptsUtil.levelUpWidget();
 
     @Override
     public int loop() {
@@ -46,7 +48,6 @@ public class Main extends AbstractScript implements PaintListener {
             }
         }
 
-
         return Random.nextInt(1000, 2400);
     }
 
@@ -54,7 +55,7 @@ public class Main extends AbstractScript implements PaintListener {
         Item orb = Inventory.getLast("Water orb");
         Item battlestaff = Inventory.getFirst("Battlestaff");
 
-        if(BotscriptsUtil.chatBoxWidget().isVisible())
+        if(chatBox.isVisible() || levelUp.isVisible())
             Inventory.useItemOn(orb, battlestaff);
 
         Time.sleepUntil(craftBox::isVisible, 5000);

@@ -32,8 +32,8 @@ public class Main extends AbstractScript implements PaintListener {
     private static final String[] bowTypes = new String[] { "Shortbow", "Longbow", "Oak", "Willow", "Maple", "Yew", "Magic" };
     private static final String[] bowStyles = new String[] { "Shortbow", "Longbow" };
     private WidgetChild bowBox = BotscriptsUtil.interactWidget();
-    private WidgetChild chatBox = Widgets.getWidget(162, 41);
-    private WidgetChild levelUp = Widgets.getWidget(233, 1);
+    private WidgetChild chatBox = BotscriptsUtil.chatBoxWidget();
+    private WidgetChild levelUp = BotscriptsUtil.levelUpWidget();
     private final MouseTrail mt = new MouseTrail();
 
     @Override
