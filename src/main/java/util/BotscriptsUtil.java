@@ -1,16 +1,14 @@
 package util;
 
 import org.tbot.bot.TBot;
-import org.tbot.methods.Random;
-import org.tbot.methods.Time;
+import org.tbot.internal.handlers.LogHandler;
+import org.tbot.methods.*;
+import org.tbot.methods.tabs.Inventory;
 import org.tbot.util.Condition;
-import org.tbot.wrappers.GameObject;
-import org.tbot.methods.GameObjects;
+import org.tbot.wrappers.*;
 import org.tbot.methods.walking.Path;
 import org.tbot.methods.walking.Walking;
-import org.tbot.wrappers.Interactable;
-import org.tbot.wrappers.Locatable;
-import org.tbot.wrappers.Tile;
+import sun.rmi.runtime.Log;
 
 import java.awt.*;
 
@@ -68,5 +66,50 @@ public final class BotscriptsUtil {
         graphics.drawString("XP/H: " + tracker.getExperiencePerHour(), 8, 30);
         graphics.drawString("Time to level: " + tracker.getTimeToLevel(), 8, 45);
         graphics.drawString("Level: " + tracker.getCurrentLevel(), 8, 60);
+    }
+
+    public static WidgetChild chatBoxWidget() {
+        return Widgets.getWidget(162, 41);
+    }
+
+    /**
+     * Returns the interact box that comes when you use items on each other
+     * @return an interactable widget
+     */
+    public static WidgetChild interactWidget() {
+        return Widgets.getWidget(309, 6);
+    }
+
+    public static void BankAllAndWithdraw(int numToWithDraw, String ... withdrawItems) {
+        Bank.openNearestBank();
+
+        BotscriptsUtil.sleepConditionWithExtraWait(Bank::isOpen, 0, 500);
+
+        if(Bank.isOpen()) {
+            Time.sleep(200, 500);
+
+            if(!Inventory.isEmpty()) {
+                Bank.depositAll();
+            }
+
+            if(!Bank.containsAll(withdrawItems)) {
+                LogHandler.log("Bank does not contain all items required, pausing script");
+                BotscriptsUtil.pauseScript();
+            }
+
+            for(String item : withdrawItems) {
+               if(!Inventory.contains(item)) {
+                   LogHandler.log("Withdrawing " + numToWithDraw + " " + item + "s");
+                   Bank.withdraw(item, numToWithDraw);
+                   Time.sleepUntil(() -> Inventory.contains(item), 5000);
+                   Time.sleep(1000, 2000);
+               }
+            }
+
+            while(Bank.isOpen())
+                Bank.close();
+
+            Time.sleep(250, 2000);
+        }
     }
 }
