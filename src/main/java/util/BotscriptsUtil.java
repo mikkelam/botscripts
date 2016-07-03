@@ -102,7 +102,7 @@ public final class BotscriptsUtil {
                    LogHandler.log("Withdrawing " + numToWithDraw + " " + item + "s");
                    Bank.withdraw(item, numToWithDraw);
                    Time.sleepUntil(() -> Inventory.contains(item), 5000);
-                   Time.sleep(1000, 2000);
+                   Time.sleep(1500, 2500);
                }
             }
 
