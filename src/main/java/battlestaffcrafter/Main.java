@@ -9,10 +9,7 @@ import org.tbot.methods.*;
 import org.tbot.methods.tabs.Inventory;
 import org.tbot.wrappers.Item;
 import org.tbot.wrappers.WidgetChild;
-import util.Antiban;
-import util.BotscriptsUtil;
-import util.PlayerUtil;
-import util.SkillTracker;
+import util.*;
 
 import java.awt.*;
 
@@ -28,9 +25,9 @@ import java.awt.*;
 public class Main extends AbstractScript implements PaintListener {
     private final SkillTracker tracker = new SkillTracker(Skills.Skill.CRAFTING);
     private final MouseTrail mt = new MouseTrail();
-    private final WidgetChild craftBox = BotscriptsUtil.interactWidget();
-    private final WidgetChild chatBox = BotscriptsUtil.chatBoxWidget();
-    private final WidgetChild levelUp = BotscriptsUtil.levelUpWidget();
+    private final WidgetChild craftBox = WidgetsUtil.interactWidget();
+    private final WidgetChild chatBox = WidgetsUtil.chatBoxWidget();
+    private final WidgetChild levelUp = WidgetsUtil.levelUpWidget();
 
     @Override
     public int loop() {
@@ -44,7 +41,7 @@ public class Main extends AbstractScript implements PaintListener {
             }
             else {
                 log("Getting items from inventory");
-                BotscriptsUtil.BankAllAndWithdraw(14, "Water orb", "Battlestaff");
+                InventoryUtil.BankAllAndWithdraw(14, "Water orb", "Battlestaff");
             }
         }
 

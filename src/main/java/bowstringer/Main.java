@@ -9,10 +9,7 @@ import org.tbot.methods.*;
 import org.tbot.methods.tabs.Inventory;
 import org.tbot.wrappers.Item;
 import org.tbot.wrappers.WidgetChild;
-import util.Antiban;
-import util.BotscriptsUtil;
-import util.PlayerUtil;
-import util.SkillTracker;
+import util.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,9 +28,9 @@ public class Main extends AbstractScript implements PaintListener {
     private String selectedBowType, selectedBowStyle;
     private static final String[] bowTypes = new String[] { "Shortbow", "Longbow", "Oak", "Willow", "Maple", "Yew", "Magic" };
     private static final String[] bowStyles = new String[] { "Shortbow", "Longbow" };
-    private WidgetChild bowBox = BotscriptsUtil.interactWidget();
-    private WidgetChild chatBox = BotscriptsUtil.chatBoxWidget();
-    private WidgetChild levelUp = BotscriptsUtil.levelUpWidget();
+    private WidgetChild bowBox = WidgetsUtil.interactWidget();
+    private WidgetChild chatBox = WidgetsUtil.chatBoxWidget();
+    private WidgetChild levelUp = WidgetsUtil.levelUpWidget();
     private final MouseTrail mt = new MouseTrail();
 
     @Override
@@ -59,7 +56,7 @@ public class Main extends AbstractScript implements PaintListener {
             if(Inventory.contains(getSelectedUnsrungBow()) && Inventory.contains("Bow string"))
                 string();
             else
-                BotscriptsUtil.BankAllAndWithdraw(14, getSelectedUnsrungBow(), "Bow String");
+                InventoryUtil.BankAllAndWithdraw(14, getSelectedUnsrungBow(), "Bow String");
         }
 
         return Random.nextInt(700, 1500);
