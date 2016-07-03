@@ -20,19 +20,20 @@ public final class BotscriptsUtil {
     /**
      * A more refined intraction method. It will walk to a nearby tile if the given {GameObject} is null, or
      * walk to it, if it is not on the screen.
-     * @param o The {GameObject} you wish to interact with
-     * @param action The right-click action "attack", "light", etc. you wish to do on {o}
+     *
+     * @param o          The {GameObject} you wish to interact with
+     * @param action     The right-click action "attack", "light", etc. you wish to do on {o}
      * @param nearbyTile A {Tile} close to {o}
      * @return The result of interacting with an object.
      */
-    public static <T extends Interactable & Locatable>  boolean interact(T o, final String action, final Tile nearbyTile) {
+    public static <T extends Interactable & Locatable> boolean interact(T o, final String action, final Tile nearbyTile) {
         // If object is null, create path to nearby tile, and return traverse
-        if(o == null) {
+        if (o == null) {
             Path path = Walking.findPath(nearbyTile);
             return path != null && path.traverse();
         }
 
-        if(!o.isOnScreen()) {
+        if (!o.isOnScreen()) {
             Path path = Walking.findPath(o.getLocation().getRandomized(1));
 
             return path != null && path.traverse();
@@ -74,39 +75,41 @@ public final class BotscriptsUtil {
 
     /**
      * Returns the interact box that comes when you use items on each other
+     *
      * @return an interactable widget
      */
     public static WidgetChild interactWidget() {
         return Widgets.getWidget(309, 6);
     }
 
-    public static void BankAllAndWithdraw(int numToWithDraw, String ... withdrawItems) {
+    public static void BankAllAndWithdraw(int numToWithDraw, String... withdrawItems) {
         Bank.openNearestBank();
 
         BotscriptsUtil.sleepConditionWithExtraWait(Bank::isOpen, 0, 500);
 
-        if(Bank.isOpen()) {
+        if (Bank.isOpen()) {
             Time.sleep(200, 500);
 
-            if(!Inventory.isEmpty()) {
+            if (!Inventory.isEmpty()) {
                 Bank.depositAll();
             }
 
-            if(!Bank.containsAll(withdrawItems)) {
+            if (!Bank.containsAll(withdrawItems)) {
                 LogHandler.log("Bank does not contain all items required, pausing script");
                 BotscriptsUtil.pauseScript();
             }
 
-            for(String item : withdrawItems) {
-               if(!Inventory.contains(item)) {
-                   LogHandler.log("Withdrawing " + numToWithDraw + " " + item + "s");
-                   Bank.withdraw(item, numToWithDraw);
-                   Time.sleepUntil(() -> Inventory.contains(item), 5000);
-                   Time.sleep(1500, 2500);
-               }
+            for (String item : withdrawItems) {
+                LogHandler.log("Withdrawing " + numToWithDraw + " " + item + "s");
+
+                while (!Inventory.contains(item)) {
+                    Bank.withdraw(item, numToWithDraw);
+                    Time.sleepUntil(() -> Inventory.contains(item), 5000);
+                    Time.sleep(2000, 3500);
+                }
             }
 
-            while(Bank.isOpen())
+            while (Bank.isOpen())
                 Bank.close();
 
             Time.sleep(250, 2000);

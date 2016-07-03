@@ -31,9 +31,10 @@ public class Main extends AbstractScript implements PaintListener {
     private String selectedBowType, selectedBowStyle;
     private static final String[] bowTypes = new String[] { "Shortbow", "Longbow", "Oak", "Willow", "Maple", "Yew", "Magic" };
     private static final String[] bowStyles = new String[] { "Shortbow", "Longbow" };
-    private WidgetChild bowBox = Widgets.getWidget(309, 6);
+    private WidgetChild bowBox = BotscriptsUtil.interactWidget();
     private WidgetChild chatBox = Widgets.getWidget(162, 41);
     private WidgetChild levelUp = Widgets.getWidget(233, 1);
+    private final MouseTrail mt = new MouseTrail();
 
     @Override
     public boolean onStart() {
@@ -58,7 +59,7 @@ public class Main extends AbstractScript implements PaintListener {
             if(Inventory.contains(getSelectedUnsrungBow()) && Inventory.contains("Bow string"))
                 string();
             else
-                bankGoods();
+                BotscriptsUtil.BankAllAndWithdraw(14, getSelectedUnsrungBow(), "Bow String");
         }
 
         return Random.nextInt(700, 1500);
@@ -81,44 +82,6 @@ public class Main extends AbstractScript implements PaintListener {
         }
     }
 
-    private void bankGoods() {
-        Bank.openNearestBank();
-
-        BotscriptsUtil.sleepConditionWithExtraWait(Bank::isOpen, 0, 500);
-
-        if(Bank.isOpen()) {
-            Time.sleep(200, 500);
-            
-            if(!Inventory.isEmpty()) {
-                Bank.depositAll();
-            }
-
-            if(Bank.contains(getSelectedUnsrungBow()) && Bank.contains("Bow string")) {
-                if(!Inventory.contains(getSelectedUnsrungBow())) {
-                    Bank.withdraw(getSelectedUnsrungBow(), 14);
-                    Time.sleepUntil(() -> Inventory.contains(getSelectedUnsrungBow()), 5000);
-                    Time.sleep(1000, 2000);
-                }
-
-                if(!Inventory.contains("Bow string")) {
-                    Bank.withdrawAll("Bow string");
-                    Time.sleepUntil(() -> Inventory.contains("Bow string"), 5000);
-                    Time.sleep(250, 750);
-                }
-
-            }
-            else {
-                log("Don't have any " + getSelectedUnsrungBow() + "s, or bow strings in bank. Stopping script.");
-                BotscriptsUtil.pauseScript();
-            }
-
-            while(Bank.isOpen())
-                Bank.close();
-
-            Time.sleep(250, 2000);
-        }
-    }
-
     public String getSelectedUnsrungBow() {
         if(selectedBowType.equals("Shortbow") || selectedBowType.equals("Longbow"))
             return selectedBowType;
@@ -126,14 +89,10 @@ public class Main extends AbstractScript implements PaintListener {
             return selectedBowType + " " + selectedBowStyle.toLowerCase() + " (u)";
     }
 
-    private final MouseTrail mt = new MouseTrail();
-
     @Override
     public void onRepaint(Graphics graphics) {
         mt.draw(graphics);
         mt.setColor(Color.ORANGE);
         BotscriptsUtil.showSimpleStats(graphics, tracker);
     }
-
-
 }
