@@ -6,7 +6,6 @@ import org.tbot.internal.Manifest;
 import org.tbot.internal.ScriptCategory;
 import org.tbot.internal.event.listeners.PaintListener;
 import org.tbot.methods.*;
-import org.tbot.methods.Random;
 import org.tbot.methods.combat.magic.Magic;
 import org.tbot.methods.combat.magic.SpellBooks;
 import org.tbot.methods.tabs.Inventory;
@@ -16,7 +15,6 @@ import util.BotscriptsUtil;
 import util.SkillTracker;
 
 import java.awt.*;
-import java.util.*;
 
 @Manifest(
         name = "Martin's High Alcher",
@@ -33,9 +31,6 @@ public class Main extends AbstractScript implements PaintListener {
     private Item highAlchItem;
     private WidgetChild highAlchWidget = Widgets.getWidget(218, 35);
     private WidgetChild magicTabWidget = Widgets.getWidget(548, 58);
-    private static final int[] moveProbabilities = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,-1,-1,-1,-1,-2,-2,2,2,2};
-
-
 
     @Override
     public boolean onStart() {
@@ -51,17 +46,16 @@ public class Main extends AbstractScript implements PaintListener {
     public int loop() {
         if(Magic.hasRunesOrStaff(SpellBooks.Modern.HIGH_LEVEL_ALCHEMY) && highAlchItem != null) {
             if(highAlchWidget.isVisible()) {
-                Mouse.move(710 + Random.randomFromArray(moveProbabilities), 330 + Random.randomFromArray(moveProbabilities));
-                Mouse.click(true);
+                highAlchWidget.click();
 
                 Time.sleepUntil(Inventory::isOpen, 3000);
                 Time.sleep(300, 800);
 
                 if(Inventory.isOpen()) {
-                    Mouse.click(true);
+                    highAlchItem.click();
 
                     Time.sleepUntil(highAlchWidget::isVisible, 5000);
-                    Time.sleep(250, 500);
+                    Time.sleep(350, 750);
                 }
             }
             else {
